@@ -11,7 +11,7 @@
 
 <body>
   <div class="vertical-strip bg-black text-white text-center fixed-top d-flex justify-content-between">
-    <div><a href=''>Developed by: Sachin Yadav</a></div>
+    <div><span>Developed by: Sachin Yadav</span></div>
     <div class="m-0">Summarize your text</div>
     <div class='d-flex flex-row-reverse'>
 <div class='me-1'><a href="https://github.com/sachin2967" target="_blank" rel="noopener noreferrer"> GitHub </a></div>
@@ -42,7 +42,6 @@
               <div><button type="reset" class="btn btn-danger m-2 px-4" id="clearButton">Clear </button></div>
             </div>
           </form>
-          </p>
         </div>
       </div>
     </div>
@@ -55,22 +54,6 @@
       </div>
     </div>
   </div>
-  <!-- <script>
-  function myFunction() {
-            /* Get the text field */
-            var copyText = document.getElementById("myInput");
-
-            /* Select the text field */
-            copyText.select();
-            copyText.setSelectionRange(0, 99999); /* For mobile devices */
-
-            /* Copy the text inside the text field */
-            navigator.clipboard.writeText(copyText.value);
-        }
-  
-</script> -->
-
-
   <script>
     async function copySummary() {
       const output = document.getElementById("myInput");
