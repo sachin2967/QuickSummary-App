@@ -9,7 +9,7 @@ the Hugging Face Inference API.
 1. You paste text and choose a maximum summary length.
 2. The app sets the minimum length to a quarter of the maximum and sends the text to the
    Hugging Face Inference API.
-3. The returned summary is rendered on the page.
+3. The returned summary is rendered on the page. The requested `max_length` is measured in model tokens, not words.
 
 ## Setup
 
@@ -24,7 +24,9 @@ cp .env.example .env        # then put your token in API_TOKEN
 flask --app app run
 ```
 
-Open http://127.0.0.1:5000.
+Open http://127.0.0.1:5000. For local debugging only, set `FLASK_DEBUG=1`; debug mode is off by default.
+
+The output range is 50–1,000 model tokens (not words). Very long inputs may exceed the hosted model's input limit.
 
 ## Configuration
 
@@ -34,8 +36,8 @@ Open http://127.0.0.1:5000.
 
 ## Limitations
 
-- Depends on a third-party hosted model; availability, rate limits and latency are outside
-  this app's control, and there is no retry or error page for failed API calls.
+- Depends on the third-party hosted Hugging Face model; availability, rate limits and latency are outside
+  this app's control. Timeouts and common API errors are displayed in the page.
 - Intended as a learning project, not a production service.
 
 ## License
