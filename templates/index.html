@@ -12,11 +12,10 @@
 <body>
   <div class="vertical-strip bg-black text-white text-center fixed-top d-flex justify-content-between">
     <div><a href=''>Developed by: Sachin Yadav</a></div>
-    <div class="m-0">Welcome to our website!</div>
+    <div class="m-0">Summarize your text</div>
     <div class='d-flex flex-row-reverse'>
       <div><a href="mailto:sachinyadav2967@gmail.com"> Email </a></div>
-      <div class='me-1'><a href="#" target="_blank"> LinkedIn </a></div>
-      <div class='me-1'><a href="#" target="_blank"> GitHub </a></div>
+      <div class='me-1'><a href="https://github.com/sachin2967" target="_blank" rel="noopener noreferrer"> GitHub </a></div>
     </div>
   </div>
   <!-- <div class="mb-3">
@@ -28,15 +27,16 @@
     <div class="col-sm-6 mb-3 mb-sm-0">
       <div class="card d-flex flex-column">
         <div class="card-body">
-          <p class="card-text">
+          {% if error %}<div class="alert alert-warning" role="alert" aria-live="polite">{{ error }}</div>{% endif %}
           <form method="POST" action="{{url_for('index')}}">
             <div class="mb-3">
-              <textarea type="text" class="form-control" name="text" placeholder="Enter your text" id="inputText"
-                rows="18" required></textarea>
+              <textarea class="form-control" name="text" placeholder="Enter your text" id="inputText"
+                rows="18" required>{{ text or '' }}</textarea>
             </div>
             <div class="d-grid gap-2 d-md-flex justify-content-md-center">
-              <div><label for="customRange1" class="form-label ">Summary range (50-1000 words)</label></div>
-              <div><input type="range" name="maxL" min="50" max="1000"></div>
+              <div><label for="maxLength" class="form-label">Summary length (50-1000 model tokens)</label></div>
+              <div><input type="range" id="maxLength" name="maxL" min="50" max="1000" step="10" value="{{ maxL or 150 }}" oninput="document.getElementById('lengthValue').textContent=this.value"></div>
+              <output id="lengthValue" for="maxLength">{{ maxL or 150 }}</output>
             </div>
             <div class="d-flex flex-row justify-content-center">
               <div><button type="submit" class="btn btn-success m-2 px-4" id="submitButton">Submit</button></div>
@@ -50,11 +50,9 @@
     <div class="col-sm-6">
       <div class="card">
         <div class="card-body">
-          <textarea class="form-control " id="myInput" rows="20" type="text" placeholder="Your Summary" disabled
-            readonly>{{data}}</textarea>
+          <textarea class="form-control" id="myInput" rows="20" placeholder="Your summary will appear here" readonly>{{ data or '' }}</textarea>
         </div>
-        <div class="center"> <button class="btn btn-primary d-grid gap-2 mx-auto my-4" onclick="myFunction()">Copy
-            text</button></div>
+        <div class="center"><button class="btn btn-primary d-grid gap-2 mx-auto my-4" type="button" onclick="copySummary()">Copy text</button></div>
       </div>
     </div>
   </div>
@@ -72,6 +70,21 @@
         }
   
 </script> -->
+
+
+  <script>
+    async function copySummary() {
+      const output = document.getElementById("myInput");
+      if (!output.value.trim()) return;
+      try {
+        await navigator.clipboard.writeText(output.value);
+      } catch (error) {
+        output.focus();
+        output.select();
+        document.execCommand("copy");
+      }
+    }
+  </script>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
